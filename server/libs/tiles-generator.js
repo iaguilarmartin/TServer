@@ -1,15 +1,50 @@
 'use strict';
 
+/**
+ * This module is used to render tile images
+ * 
+ * @module tiles-generator
+ */
+
 const mapnik = require('mapnik');
 const path = require('path');
 const converter = require('./converter');
 
+/**
+ * Default tile height and width in pixels
+ * 
+ * @constant
+ * @type {Number}
+ *  @default
+*/
 const TILE_SIZE = 256;
+
+/**
+ * Default style file name for layer admin0
+ * 
+ * @constant
+ * @type {String}
+ *  @default
+*/
 const LAYER_0_STYLE = 'style-admin0.xml';
+
+/**
+ * Default style file name for layer admin1
+ * 
+ * @constant
+ * @type {String}
+ *  @default
+*/
 const LAYER_1_STYLE = 'style-admin1.xml';
 
 mapnik.register_datasource(path.join(mapnik.settings.paths.input_plugins, 'shape.input'));
 
+
+/** 
+ * Return layer style file's path given a layer name. 
+ * @param {String} layerNmae - The layer name.
+ * @returns {String} File path.
+ */
 function getLayerStyle(layerNmae) {
 
     const layersStylePath = path.join(__dirname, '../resources/layers');
@@ -24,6 +59,16 @@ function getLayerStyle(layerNmae) {
     }
 }
 
+/** 
+ * Asynchronous function that generates a tile image of a leyer 
+ * given z, x and y tile coordinates. 
+ * @param {String} layerNmae - Layer name.
+ * @param {Number} z - Tile Z coordinate.
+ * @param {Number} x - Tile X coordinate.
+ * @param {Number} y - Tile Y coordinate.
+ * @returns {Promise} Returns a promise that when it resolves correctly the buffer
+ * of the image is returned, otherwise, Error object is returned 
+ */
 exports.generateImage = function (layer, z, x, y) {
 
     return new Promise((resolve, reject) => {
@@ -64,6 +109,16 @@ exports.generateImage = function (layer, z, x, y) {
     });
 };
 
+/** 
+ * Asynchronous function that generates a tile image of a leyer 
+ * given z, x and y tile coordinates using Mapnik.VectorTile object methods
+ * @param {String} layerNmae - Layer name.
+ * @param {Number} z - Tile Z coordinate.
+ * @param {Number} x - Tile X coordinate.
+ * @param {Number} y - Tile Y coordinate.
+ * @returns {Promise} Returns a promise that when it resolves correctly the buffer
+ * of the image is returned, otherwise, Error object is returned 
+ */
 exports.generateImageUsingVectorTile = function (layer, z, x, y) {
 
     return new Promise((resolve, reject) => {

@@ -11,6 +11,7 @@
     "mapnik": "3.6.2"
   },
   "scripts": {
-    "start": "node server/server"
+    "start": "node server/server",
+    "document": "jsdoc server -r -d docs -R README.md"
   }
 }
