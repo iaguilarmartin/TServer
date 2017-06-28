@@ -10,8 +10,15 @@
   "dependencies": {
     "mapnik": "3.6.2"
   },
+  "devDependencies": {
+    "chai": "^4.0.2",
+    "chai-http": "^3.0.0",
+    "jsdoc": "^3.4.3",
+    "mocha": "^3.4.2"
+  },
   "scripts": {
     "start": "node server/server",
-    "document": "jsdoc server -r -d docs -R README.md"
+    "document": "jsdoc server -r -d docs -R README.md",
+    "test": "mocha --timeout 10000"
   }
 }

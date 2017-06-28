@@ -27,7 +27,7 @@ const urlParser = require('url');
 */
 const portNumber = process.env.PORT || 8888;
 
-if (cluster.isMaster) {
+if (cluster.isMaster && process.env.NODE_ENV !== 'test') {
     for (const _ of os.cpus()) {
         cluster.fork();
     }

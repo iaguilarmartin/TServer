@@ -40,6 +40,11 @@ function calculateMapSize(tileLevel, tileSize) {
  * @returns {Array.<Number>} Array containing resultant longitude and latitude in degrees.
  */
 exports.tileXYToLonLat = function(tileX, tileY, tileZ, tileSize) {
+
+    if (arguments.length !== 4) {
+        return [];
+    }
+
     const pixelX = tileX * tileSize;
     const pixelY = tileY * tileSize;
 
