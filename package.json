@@ -1,11 +1,12 @@
 {
   "private": true,
-  "name": "node-carto-code-test",
+  "name": "TServer",
+  "description": "A Tile Server built using Mapnik and NodeJS",
   "version": "1.0.0",
   "main": "server.js",
   "keywords": [],
-  "author": "",
-  "license": "BSD-3-Clause",
+  "author": "Iván Aguilar Martín",
+  "license": "MIT",
   "dependencies": {
     "mapnik": "3.6.2"
   },

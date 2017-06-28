@@ -13,18 +13,18 @@ if (cluster.isMaster) {
         cluster.fork();
     }
 } else {
-    runServer();
+    runServer(); 
 }
 
 function runServer() {
     const server = http.createServer((req, res) => {
         const url = urlParser.parse(req.url);
-        const params = getTileParameters(url);
+        const params = parseURLParameters(url);
 
-        if (params === null || params.some(param => param === null)) {
-            respondWithError(res, new Error("Bad request"), 400);
+        if (!params) {
+            respondWithError(res, new Error('Bad request'), 400);
         } else {
-            generator.generateImage(...params)
+            generator.generateImage(params.layer, params.z, params.x, params.y)
                 .then(tile => respondWithTile(res, tile))
                 .catch(err => respondWithError(res, err));
         }
@@ -45,21 +45,23 @@ function respondWithTile(response, tile) {
     response.end(tile, 'binary');
 }
 
-function getTileParameters(url) {
+function parseURLParameters(url) {
     const path = url.path;
-    if (!path.endsWith(".png") || path.split('/').length !== 5) {
+    if (!path.endsWith('.png') || path.split('/').length !== 5) {
         return null;
     }
 
-    const params = path.substring(1, path.length - 4).split('/').map((param, index) => {
-        if (index == 0) {
-            return param;
-        }
+    let [,layer, z, x, y ] = path.split('/');
 
-        return isNaN(parseInt(param)) ? null : parseInt(param);
-    });
+    z = parseInt(z);
+    y = parseInt(y);
+    x = parseInt(x);
 
-    return params;
+    if (isNaN(z) || isNaN(x) || isNaN(y)) {
+        return null;
+    }
+
+    return {layer, z, x, y};
 }
 
 
